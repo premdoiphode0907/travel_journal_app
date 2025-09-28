@@ -14,6 +14,9 @@ import com.app.traveljournalapp.data.db.model.ApiResponse;
 import com.app.traveljournalapp.data.db.model.RegisterRequest;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
+
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,42 +47,55 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Register user function using Retrofit
+    // Register user function using Retrofit
     private void registerUser(String name, String email, String password) {
-        RegisterRequest request = new RegisterRequest();
-        request.name = name;
-        request.email = email;
-        request.password = password;
+        // Build the form body to match the server's expected format
+        RequestBody formBody = new FormBody.Builder()
+                .add("action", "register")   // action parameter to specify registration
+                .add("name", name)           // user's name
+                .add("email", email)         // user's email
+                .add("password", password)   // user's password
+                .build();
 
-        // Call the register API
-        RetrofitClient.getClient().create(ApiService.class).register(request).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-                    // Log response body to check what the API is returning
-                    Log.d("RegisterActivity", "Response: " + response.body());
+        // Call the register API using Retrofit
+        RetrofitClient.getClient().create(ApiService.class)
+                .register(formBody).enqueue(new Callback<ApiResponse>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                        if (response.isSuccessful()) {
+                            // Log the raw response to debug the result
+                            Log.d("RegisterActivity", "Response: " + response.body());
 
-                    // Check if the response status is 'success'
-                    if (response.body() != null  && response.body().success) {
-                        Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class)); // Navigate to Login
-                        finish();
-                    } else {
-                        // Handle case when the API returns failure status
-                        Toast.makeText(RegisterActivity.this, "Registration failed: " + response.body().message, Toast.LENGTH_SHORT).show();
+                            // Check if the API response has the correct status
+                            if (response.body() != null && response.body().getStatus() != null) {
+                                if (response.body().getStatus().equals("success")) {
+                                    // Registration was successful
+                                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class)); // Navigate to Login
+                                    finish();
+                                } else {
+                                    // API returned a failure status
+                                    Log.d("RegisterActivity", "Failure message: " + response.body().getMessage());
+                                    Toast.makeText(RegisterActivity.this, "Registration failed: " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // If the response body is null or does not contain a valid status
+                                Log.d("RegisterActivity", "Invalid response from server: " + response.message());
+                                Toast.makeText(RegisterActivity.this, "Registration failed: Invalid response from server.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // If the response code is not successful (not 200)
+                            Log.e("RegisterActivity", "API Error: " + response.message());
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + response.message(), Toast.LENGTH_SHORT).show();
+                        }
                     }
-                } else {
-                    // Log the error message if the response was not successful
-                    Log.e("RegisterActivity", "API Error: " + response.message());
-                    Toast.makeText(RegisterActivity.this, "Registration failed: " + response.message(), Toast.LENGTH_SHORT).show();
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                // Log the error if the network call fails
-                Log.e("RegisterActivity", "Network Error: " + t.getMessage());
-                Toast.makeText(RegisterActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                        // Log the error if the network call fails
+                        Log.e("RegisterActivity", "Network Error: " + t.getMessage());
+                        Toast.makeText(RegisterActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
