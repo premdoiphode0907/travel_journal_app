@@ -1,0 +1,63 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.google.service)
+    alias(libs.plugins.firebase.crashlytics)
+}
+
+android {
+    namespace 'com.app.traveljournalapp'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "com.app.traveljournalapp"
+        minSdk 24
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    //Room database dependencies
+    implementation libs.room.runtime
+    annotationProcessor libs.room.compiler
+
+    //Firebase
+    // Import the BoM for the Firebase platform
+    implementation(platform(libs.firebase.bom))
+
+    // Add the dependencies for the Crashlytics NDK and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(libs.firebase.crashlytics.ndk)
+    implementation(libs.google.firebase.analytics)
+
+// Retrofit
+    implementation libs.retrofit
+    implementation libs.converter.gson
+
+
+
+
+}

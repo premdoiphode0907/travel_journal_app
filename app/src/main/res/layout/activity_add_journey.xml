@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title input -->
+    <EditText
+        android:id="@+id/etTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Journey Title"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Date input -->
+    <EditText
+        android:id="@+id/etDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date (YYYY-MM-DD)"
+        android:inputType="date"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Address input -->
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Description input -->
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Save Journey button -->
+    <Button
+        android:id="@+id/btnSaveJourney"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Journey"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>
