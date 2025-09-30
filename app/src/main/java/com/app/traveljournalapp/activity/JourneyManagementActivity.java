@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.app.traveljournalapp.R;
 import com.app.traveljournalapp.fragment.JourneyFragment;
+import com.app.traveljournalapp.fragment.MemoriesFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class JourneyManagementActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class JourneyManagementActivity extends AppCompatActivity {
                 if (tab.getPosition() == 0) {
                     loadFragment(new JourneyFragment());
                 } else if (tab.getPosition() == 1) {
-                    // loadFragment(new MemoriesFragment());
+                     loadFragment(new MemoriesFragment());
                 }
             }
 
