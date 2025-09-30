@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,8 @@ import retrofit2.Response;
 public class AddJourneyActivity extends AppCompatActivity {
 
     private EditText titleEditText, dateEditText, addressEditText, descriptionEditText;
-    private Button saveButton,backButton;
+    private Button saveButton;
+    private ImageButton backButton;
     private AppDatabase appDatabase;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
@@ -51,7 +53,7 @@ public class AddJourneyActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.etAddress);
         descriptionEditText = findViewById(R.id.etDescription);
         saveButton = findViewById(R.id.btnSaveJourney);
-//        backButton = findViewById(R.id.backButton);
+       backButton = findViewById(R.id.backButton);
 
         String address1 = getIntent().getStringExtra("address");
         if (address1 != null) {
@@ -75,13 +77,14 @@ public class AddJourneyActivity extends AppCompatActivity {
             }
         });
 
-//        backButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(AddJourneyActivity.this, JourneyManagementActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddJourneyActivity.this, JourneyManagementActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         // Initialize SharedPreferencesHelper
         sharedPreferencesHelper = new SharedPreferencesHelper(this);

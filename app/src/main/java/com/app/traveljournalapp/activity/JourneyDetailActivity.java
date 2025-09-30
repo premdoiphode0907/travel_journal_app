@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import retrofit2.Response;
 public class JourneyDetailActivity extends AppCompatActivity {
 
     private TextView titleTextView, dateTextView, addressTextView, descriptionTextView, addPhotosButton;
+    private ImageButton backButton;
     private int position;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 100;
@@ -52,6 +54,13 @@ public class JourneyDetailActivity extends AppCompatActivity {
         descriptionTextView = findViewById(R.id.journeyDescription);
         addPhotosButton = findViewById(R.id.addPhotosButton);
         capturedImageView = findViewById(R.id.capturedImageView);
+        backButton = findViewById(R.id.backButton);
+        
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(JourneyDetailActivity.this, JourneyManagementActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         // Initialize SharedPreferencesHelper
         sharedPreferencesHelper = new SharedPreferencesHelper(this);
