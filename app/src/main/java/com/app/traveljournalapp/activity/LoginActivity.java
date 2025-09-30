@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Check if the response status is "success"
                             if ("success".equalsIgnoreCase(apiResponse.getStatus())) {
                                 // Save user to Room Database and SharedPreferences on successful login
-                                saveUserLocally(email);
+                                saveUserLocally(email,apiResponse.getUser().getId(), password, apiResponse.getUser().getName());
                                 sharedPreferencesHelper.setLoggedIn(true);
                                 sharedPreferencesHelper.setUserId(apiResponse.getUser().getId());
                                 navigateToJourneyActivity();
@@ -124,9 +124,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Save logged-in user to Room database
-    private void saveUserLocally(String email) {
+    private void saveUserLocally(String email, int id, String password, String name) {
         User user = new User();
+        user.setId(id);
+        user.setName(name); // Replace with actual user name
         user.setEmail(email);
+        user.setPassword(password);
         // Save to Room Database in a background thread
         new Thread(() -> appDatabase.userDao().insert(user)).start();
     }
