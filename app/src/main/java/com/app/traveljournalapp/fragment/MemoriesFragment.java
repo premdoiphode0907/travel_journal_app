@@ -58,7 +58,7 @@ public class MemoriesFragment extends Fragment {
     }
 
     private void fetchMemoriesData() {
-        String userId = String.valueOf(sharedPreferencesHelper.getUserId());  // Replace with the actual logged-in user ID
+        String userId = String.valueOf(sharedPreferencesHelper.getUserId());
 
         RequestBody requestBody = new FormBody.Builder()
                 .add("action", "get_memories")

@@ -53,13 +53,17 @@ public class AddJourneyActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.btnSaveJourney);
 //        backButton = findViewById(R.id.backButton);
 
+        String address1 = getIntent().getStringExtra("address");
+        if (address1 != null) {
+            addressEditText.setText(address1);
+        }
         dateEditText.setOnClickListener(v -> showDatePickerDialog());
 
         // Button click listener to save journey
         saveButton.setOnClickListener(v -> {
             String title = titleEditText.getText().toString().trim();
             String date = dateEditText.getText().toString().trim();
-            String address = addressEditText.getText().toString().trim();
+            String address = address1;
             String description = descriptionEditText.getText().toString().trim();
 
             // Validate inputs before saving
