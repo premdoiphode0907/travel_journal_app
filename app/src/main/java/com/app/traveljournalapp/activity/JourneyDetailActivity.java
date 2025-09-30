@@ -1,14 +1,19 @@
 package com.app.traveljournalapp.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.app.traveljournalapp.R;
 import com.app.traveljournalapp.data.db.entity.Journey;
@@ -29,6 +34,8 @@ public class JourneyDetailActivity extends AppCompatActivity {
     private TextView titleTextView, dateTextView, addressTextView, descriptionTextView, addPhotosButton;
     private int position;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_CAMERA_PERMISSION = 100;
+
     private ImageView capturedImageView;
     private Bitmap photoBitmap;
 
@@ -46,6 +53,12 @@ public class JourneyDetailActivity extends AppCompatActivity {
         capturedImageView = findViewById(R.id.capturedImageView);
 
 
+        // Check if the app has permission to access the camera
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // If permission is not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
+
         // Get the journey ID passed from the previous activity
         int  journeyId = getIntent().getIntExtra("journeyId", -1);
         position = getIntent().getIntExtra("position", -1);
@@ -59,12 +72,24 @@ public class JourneyDetailActivity extends AppCompatActivity {
         addPhotosButton.setOnClickListener(v -> openCamera());
     }
 
+    // Handle the result of the permission request
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can access the camera now
+                openCamera();
+            } else {
+                // Permission denied, show a message to the user
+                Toast.makeText(this, "Camera permission is required to capture photos.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     // Method to open the camera for capturing a photo
     private void openCamera() {
-        Intent takePictureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA_PERMISSION);
     }
 
     // Handle the result of the camera intent
