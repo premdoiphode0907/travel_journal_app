@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:layout_marginTop="120dp"
     android:orientation="vertical"
     android:padding="24dp">
 
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="@drawable/edittext_bg"
-        android:hint="Email ID or Phone Number"
+        android:hint="Email ID"
         android:paddingHorizontal="16dp"
         android:textColorHint="#8D9BAC"
         android:textColor="#000000"
@@ -46,16 +45,7 @@
         android:textColor="#000000"
         android:inputType="textPassword" />
 
-    <!-- Forgot Password -->
-    <TextView
-        android:id="@+id/tvForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Forgot Password?"
-        android:textColor="#B04C00"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="start"/>
+
 
     <!-- Login Button -->
     <androidx.appcompat.widget.AppCompatButton

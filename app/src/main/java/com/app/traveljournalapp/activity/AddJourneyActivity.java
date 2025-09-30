@@ -1,5 +1,6 @@
 package com.app.traveljournalapp.activity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,10 @@ import com.app.traveljournalapp.data.db.model.ApiResponse;
 import com.app.traveljournalapp.data.db.model.SaveJourneyRequest;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -46,6 +51,8 @@ public class AddJourneyActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.btnSaveJourney);
 //        backButton = findViewById(R.id.backButton);
 
+        dateEditText.setOnClickListener(v -> showDatePickerDialog());
+
         // Button click listener to save journey
         saveButton.setOnClickListener(v -> {
             String title = titleEditText.getText().toString().trim();
@@ -70,6 +77,32 @@ public class AddJourneyActivity extends AppCompatActivity {
 //            }
 //        });
     }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Create DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (view, year1, monthOfYear, dayOfMonth1) -> {
+                    // Format the selected date and set it to the EditText
+                    Calendar selectedDate = Calendar.getInstance();
+                    selectedDate.set(year1, monthOfYear, dayOfMonth1);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    dateEditText.setText(dateFormat.format(selectedDate.getTime()));
+                },
+                year,
+                month,
+                dayOfMonth
+        );
+
+        // Show the DatePickerDialog
+        datePickerDialog.show();
+    }
+
 
     private void saveJourneyToApiAndDatabase(String title, String date, String address, String description) {
         // Prepare API request body

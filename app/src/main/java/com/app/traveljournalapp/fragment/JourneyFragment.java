@@ -5,10 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,10 +46,6 @@ public class JourneyFragment extends Fragment {
         journeyAdapter = new JourneyAdapter();
         recyclerView.setAdapter(journeyAdapter);
 
-        // Initialize ProgressBar for loading indication
-//        progressBar = view.findViewById(R.id.progressBar);
-
-
         // Set up the button to open AddJourneyActivity
         view.findViewById(R.id.addJourneyButton).setOnClickListener(v -> {
             // Open Add Journey Activity when button is clicked
@@ -78,8 +71,6 @@ public class JourneyFragment extends Fragment {
                 .enqueue(new Callback<JourneyResponse>() {
                     @Override
                     public void onResponse(Call<JourneyResponse> call, Response<JourneyResponse> response) {
-                        // Hide progress bar after data is fetched
-//                        progressBar.setVisibility(View.GONE);
 
                         if (response.isSuccessful() && response.body() != null) {
                             JourneyResponse apiResponse = response.body();
