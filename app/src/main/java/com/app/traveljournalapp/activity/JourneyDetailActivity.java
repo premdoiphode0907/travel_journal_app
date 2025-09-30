@@ -61,7 +61,6 @@ public class JourneyDetailActivity extends AppCompatActivity {
         addressTextView = findViewById(R.id.journeyAddress);
         descriptionTextView = findViewById(R.id.journeyDescription);
         addPhotosButton = findViewById(R.id.addPhotosButton);
-//        capturedImageView = findViewById(R.id.capturedImageView);
         backButton = findViewById(R.id.backButton);
 
         RecyclerView memoriesRecyclerView = findViewById(R.id.memoriesRecyclerView);

@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="#FFFFFF">
 
     <!-- Top Bar with Add Button -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="end|center_vertical">
+        android:padding="16dp">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/locationSwitch"
@@ -21,8 +20,9 @@
             android:text="Location"
             android:textColor="#808080"
             android:textSize="14sp"
-            android:layout_marginEnd="130dp"
-            android:checked="false" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <TextView
             android:id="@+id/addJourneyButton"
@@ -31,8 +31,12 @@
             android:text="+ Add New Journey"
             android:textColor="#009688"
             android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <!-- Journey List -->
     <androidx.recyclerview.widget.RecyclerView

@@ -36,16 +36,12 @@ public class AddJourneyActivity extends AppCompatActivity {
     private EditText titleEditText, dateEditText, addressEditText, descriptionEditText;
     private Button saveButton;
     private ImageButton backButton;
-    private AppDatabase appDatabase;
     private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_journey);
-
-        // Initialize Room Database
-        appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "travel_journal_db").build();
 
         // Initialize views
         titleEditText = findViewById(R.id.etTitle);
@@ -141,8 +137,7 @@ public class AddJourneyActivity extends AppCompatActivity {
                             ApiResponse apiResponse = response.body();
 
                             if ("success".equalsIgnoreCase(apiResponse.getStatus())) {
-                                // Save to Room database
-                                saveJourneyLocally(title, date, address, description);
+
                                 Toast.makeText(AddJourneyActivity.this, "Journey saved successfully", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(AddJourneyActivity.this, JourneyManagementActivity.class);
                                 startActivity(intent);
@@ -158,17 +153,5 @@ public class AddJourneyActivity extends AppCompatActivity {
                         Toast.makeText(AddJourneyActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void saveJourneyLocally(String title, String date, String address, String description) {
-        // Save the journey to Room database
-        Journey journey = new Journey();
-        journey.setTitle(title);
-        journey.setDate(date);
-        journey.setAddress(address);
-        journey.setDescription(description);
-
-        // Insert into Room database in background thread
-        new Thread(() -> appDatabase.journeyDao().insert(journey)).start();
     }
 }
