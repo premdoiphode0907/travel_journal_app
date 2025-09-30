@@ -15,6 +15,7 @@ import com.app.traveljournalapp.R;
 import com.app.traveljournalapp.data.db.AppDatabase;
 import com.app.traveljournalapp.data.db.entity.User;
 import com.app.traveljournalapp.data.db.model.ApiResponse;
+import com.app.traveljournalapp.data.db.model.LoginResponse;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
 import com.app.traveljournalapp.utils.SharedPreferencesHelper;
@@ -83,12 +84,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // Call the login API using Retrofit
         RetrofitClient.getClient().create(ApiService.class)
-                .login(formBody).enqueue(new Callback<ApiResponse>() {
+                .login(formBody).enqueue(new Callback<LoginResponse>() {
                     @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         // Check if the response is successful and contains a valid body
                         if (response.isSuccessful() && response.body() != null) {
-                            ApiResponse apiResponse = response.body();
+                            LoginResponse apiResponse = response.body();
 
                             // Log the response for debugging
                             Log.d("LoginActivity", "Response: " + apiResponse);
@@ -98,24 +99,23 @@ public class LoginActivity extends AppCompatActivity {
                                 // Save user to Room Database and SharedPreferences on successful login
                                 saveUserLocally(email);
                                 sharedPreferencesHelper.setLoggedIn(true);
+                                sharedPreferencesHelper.setUserId(apiResponse.getUser().getId());
                                 navigateToJourneyActivity();
-                                // Show success Toast
-//                                Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                               Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                             } else {
                                 // Show failure Toast with the message from API response
-                                String errorMessage = apiResponse.getMessage() != null ? apiResponse.getMessage() : "Login failed: Unknown error";
-//                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Invalid Credential", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             // If the response body is null, show a fallback message
                             String errorMessage = response.message() != null ? response.message() : "Login failed: Unknown error";
                             Log.e("LoginActivity", "API Error: " + response.message());
-//                            Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
                         // Handle failure (network error or other issues)
                         Log.e("LoginActivity", "Network Error: " + t.getMessage());
                         Toast.makeText(LoginActivity.this, "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();

@@ -1,7 +1,9 @@
 package com.app.traveljournalapp.network;
 
+import com.app.traveljournalapp.data.db.entity.User;
 import com.app.traveljournalapp.data.db.model.ApiResponse;
 import com.app.traveljournalapp.data.db.model.JourneyResponse;
+import com.app.traveljournalapp.data.db.model.LoginResponse;
 
 
 import okhttp3.RequestBody;
@@ -12,7 +14,7 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     @POST("app_api.php")
-    Call<ApiResponse> login(@Body RequestBody request);
+    Call<LoginResponse> login(@Body RequestBody request);
 
     @POST("app_api.php")
     Call<ApiResponse> register(@Body RequestBody request);

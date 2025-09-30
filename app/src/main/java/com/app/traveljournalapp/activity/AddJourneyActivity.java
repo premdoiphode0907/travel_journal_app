@@ -18,6 +18,7 @@ import com.app.traveljournalapp.data.db.model.ApiResponse;
 import com.app.traveljournalapp.data.db.model.SaveJourneyRequest;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
+import com.app.traveljournalapp.utils.SharedPreferencesHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,6 +35,7 @@ public class AddJourneyActivity extends AppCompatActivity {
     private EditText titleEditText, dateEditText, addressEditText, descriptionEditText;
     private Button saveButton,backButton;
     private AppDatabase appDatabase;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class AddJourneyActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+
+        // Initialize SharedPreferencesHelper
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
     }
 
     private void showDatePickerDialog() {
@@ -106,7 +111,7 @@ public class AddJourneyActivity extends AppCompatActivity {
 
     private void saveJourneyToApiAndDatabase(String title, String date, String address, String description) {
         // Prepare API request body
-        String user_id = "75";
+        String user_id = String.valueOf(sharedPreferencesHelper.getUserId());
         SaveJourneyRequest request = new SaveJourneyRequest(user_id, title, date, address, description);
 
         // Create FormBody for Retrofit request

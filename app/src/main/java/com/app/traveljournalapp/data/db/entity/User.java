@@ -3,8 +3,10 @@ package com.app.traveljournalapp.data.db.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.app.traveljournalapp.data.db.model.ApiResponse;
+
 @Entity(tableName = "user")
-public class User {
+public class User extends ApiResponse {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

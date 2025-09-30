@@ -20,6 +20,7 @@ import com.app.traveljournalapp.data.db.entity.Journey;
 import com.app.traveljournalapp.data.db.model.JourneyResponse;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
+import com.app.traveljournalapp.utils.SharedPreferencesHelper;
 
 import java.io.ByteArrayOutputStream;
 
@@ -35,7 +36,7 @@ public class JourneyDetailActivity extends AppCompatActivity {
     private int position;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 100;
-
+    private SharedPreferencesHelper sharedPreferencesHelper;
     private ImageView capturedImageView;
     private Bitmap photoBitmap;
 
@@ -52,6 +53,8 @@ public class JourneyDetailActivity extends AppCompatActivity {
         addPhotosButton = findViewById(R.id.addPhotosButton);
         capturedImageView = findViewById(R.id.capturedImageView);
 
+        // Initialize SharedPreferencesHelper
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
         // Check if the app has permission to access the camera
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -128,7 +131,7 @@ public class JourneyDetailActivity extends AppCompatActivity {
     // Upload the photo to the server
     private void uploadMemoryPhoto(String base64Photo) {
         int journeyId = getIntent().getIntExtra("journeyId", -1);
-        String userId = "75";  // Replace with actual user ID
+        String userId = String.valueOf(sharedPreferencesHelper.getUserId());  // Replace with actual user ID
 
         // Prepare API request body
         RequestBody requestBody = new FormBody.Builder()
@@ -162,7 +165,7 @@ public class JourneyDetailActivity extends AppCompatActivity {
         // Create the API request body
         RequestBody requestBody = new FormBody.Builder()
                 .add("action", "get_journeys")
-                .add("user_id", "75") // Replace with actual user ID dynamically
+                .add("user_id", String.valueOf(sharedPreferencesHelper.getUserId())) // Replace with actual user ID dynamically
                 .add("journey_id", String.valueOf(journeyId))
                 .build();
 

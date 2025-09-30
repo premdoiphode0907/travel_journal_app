@@ -17,6 +17,7 @@ import com.app.traveljournalapp.data.db.entity.Journey;
 import com.app.traveljournalapp.data.db.model.JourneyResponse;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
+import com.app.traveljournalapp.utils.SharedPreferencesHelper;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class JourneyFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     public JourneyFragment() {
         // Required empty public constructor
@@ -52,6 +54,7 @@ public class JourneyFragment extends Fragment {
             startActivity(new Intent(getContext(), AddJourneyActivity.class));
         });
 
+        sharedPreferencesHelper=new SharedPreferencesHelper(getContext());
         // Fetch journeys from the API
         fetchJourneys();
 
@@ -62,7 +65,7 @@ public class JourneyFragment extends Fragment {
         // Create the request body for user ID (change the user_id as required)
         RequestBody requestBody = new FormBody.Builder()
                 .add("action", "get_journeys")
-                .add("user_id", "75")
+                .add("user_id", String.valueOf(sharedPreferencesHelper.getUserId()))
                 .build();
 
         // Call the API to get the journeys

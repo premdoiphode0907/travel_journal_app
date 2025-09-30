@@ -17,12 +17,13 @@ public class SharedPreferencesHelper {
         editor = sharedPreferences.edit();
     }
 
-    public void setUserId(String userId) {
-        editor.putString("userId", userId);
+    public void setUserId(int userId) {
+        editor.putInt("userId", userId);
         editor.apply();
     }
-    public String getUserId() {
-        return sharedPreferences.getString("userId", null);
+
+    public int getUserId() {
+        return sharedPreferences.getInt("userId", -1);  // Default value is -1 if not found
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
