@@ -18,4 +18,7 @@ public interface JourneyDao {
     // Get all journeys from the database
     @Query("SELECT * FROM journeys")
     List<Journey> getAllJourneys();
+
+    @Query("SELECT * FROM journeys WHERE id = :journeyId")
+    Journey getJourneyById(long journeyId);
 }

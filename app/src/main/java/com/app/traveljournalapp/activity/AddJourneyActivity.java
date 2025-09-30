@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class AddJourneyActivity extends AppCompatActivity {
 
     private EditText titleEditText, dateEditText, addressEditText, descriptionEditText;
-    private Button saveButton;
+    private Button saveButton,backButton;
     private AppDatabase appDatabase;
 
     @Override
@@ -44,6 +44,7 @@ public class AddJourneyActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.etAddress);
         descriptionEditText = findViewById(R.id.etDescription);
         saveButton = findViewById(R.id.btnSaveJourney);
+//        backButton = findViewById(R.id.backButton);
 
         // Button click listener to save journey
         saveButton.setOnClickListener(v -> {
@@ -60,11 +61,19 @@ public class AddJourneyActivity extends AppCompatActivity {
                 saveJourneyToApiAndDatabase(title, date, address, description);
             }
         });
+
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(AddJourneyActivity.this, JourneyManagementActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     private void saveJourneyToApiAndDatabase(String title, String date, String address, String description) {
         // Prepare API request body
-        String user_id = "75";  // Replace with actual user ID
+        String user_id = "75";
         SaveJourneyRequest request = new SaveJourneyRequest(user_id, title, date, address, description);
 
         // Create FormBody for Retrofit request

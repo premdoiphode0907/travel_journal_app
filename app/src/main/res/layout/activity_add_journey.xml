@@ -3,50 +3,147 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp"
+    android:background="@android:color/white">
 
-    <!-- Title input -->
+    <!-- Back Button & Title -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:layout_gravity="start|center_vertical"
+            android:padding="10dp" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Journey"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Journey Title"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="Title"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="#8D9BAC"
+        android:textColor="#000000"
+        android:inputType="textEmailAddress" />
+    <!-- Title input -->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Title"-->
+<!--        android:layout_marginTop="16dp">-->
 
-    <!-- Date input -->
+<!--        <EditText-->
+<!--            android:id="@+id/etTitle"-->
+<!--            android:inputType="text"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
     <EditText
         android:id="@+id/etDate"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Date (YYYY-MM-DD)"
-        android:inputType="date"
-        android:layout_marginBottom="16dp"/>
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_bg"
+        android:hint="2025-09-25"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="#8D9BAC"
+        android:textColor="#000000"
+        android:inputType="textEmailAddress" />
+    <!-- Date input -->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Date"-->
+<!--        android:layout_marginTop="16dp">-->
 
-    <!-- Address input -->
+<!--        <EditText-->
+<!--            android:id="@+id/etDate"-->
+<!--            android:inputType="date"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
     <EditText
         android:id="@+id/etAddress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_bg"
         android:hint="Address"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="#8D9BAC"
+        android:textColor="#000000"
+        android:inputType="textEmailAddress" />
+    <!-- Address input -->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Address"-->
+<!--        android:layout_marginTop="16dp">-->
 
-    <!-- Description input -->
+<!--        <EditText-->
+<!--            android:id="@+id/etAddress"-->
+<!--            android:inputType="text"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
     <EditText
         android:id="@+id/etDescription"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
+        android:background="@drawable/edittext_bg"
         android:hint="Description"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:textColorHint="#8D9BAC"
+        android:textColor="#000000"
+        android:inputType="textEmailAddress" />
+    <!-- Description input -->
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Description"-->
+<!--        android:layout_marginTop="16dp">-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/etDescription"-->
+<!--            android:inputType="text"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </com.google.android.material.textfield.TextInputLayout>-->
 
     <!-- Save Journey button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSaveJourney"
+        android:text="Save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Journey"
-        android:layout_marginTop="16dp"/>
-
+        android:background="@drawable/gradient_button_bg"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp" />
 </LinearLayout>

@@ -33,7 +33,6 @@ public class JourneyFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private JourneyAdapter journeyAdapter;
-    private ProgressBar progressBar;  // ProgressBar for loading indication
 
     public JourneyFragment() {
         // Required empty public constructor
@@ -67,13 +66,10 @@ public class JourneyFragment extends Fragment {
     }
 
     private void fetchJourneys() {
-        // Show progress bar while data is loading
-//        progressBar.setVisibility(View.VISIBLE);
-
         // Create the request body for user ID (change the user_id as required)
         RequestBody requestBody = new FormBody.Builder()
-                .add("action", "get_journeys")  // action to fetch journeys
-                .add("id", "75") // Replace with actual user ID dynamically
+                .add("action", "get_journeys")
+                .add("user_id", "75")
                 .build();
 
         // Call the API to get the journeys
@@ -106,8 +102,6 @@ public class JourneyFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<JourneyResponse> call, Throwable t) {
-                        // Hide progress bar in case of failure
-//                        progressBar.setVisibility(View.GONE);
                         // Handle network failure or exception
                         Toast.makeText(getContext(), "Network Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }

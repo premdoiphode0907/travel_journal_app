@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.traveljournalapp.R;
 import com.app.traveljournalapp.data.db.model.ApiResponse;
-import com.app.traveljournalapp.data.db.model.RegisterRequest;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
 

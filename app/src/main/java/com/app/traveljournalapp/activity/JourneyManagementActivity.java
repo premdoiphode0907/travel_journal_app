@@ -23,10 +23,8 @@ public class JourneyManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journey_management);
 
-        // ✅ Initialize tabLayout before using it
         tabLayout = findViewById(R.id.tabLayout);
 
-        // Add tabs with custom views
         TabLayout.Tab journeyTab = tabLayout.newTab();
         journeyTab.setCustomView(createTabView("Journeys", true));
         tabLayout.addTab(journeyTab);

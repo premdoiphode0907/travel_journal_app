@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- Back button and title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|center_vertical"
+        android:paddingBottom="16dp">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Back"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/journeyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Journey Details"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            android:textColor="#000000"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <!-- Journey Details -->
+    <TextView
+        android:id="@+id/journeyTitleDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Himalayas"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/journeyDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 Jan 2025"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#666666"/>
+    <TextView
+        android:id="@+id/journeyAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Himachal Pradesh, India"
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:textColor="#666666"/>
+
+
+    <TextView
+        android:id="@+id/journeyDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wonderful trip during the winters in the months of December to January, the natural beauty and the scenic glaciers are at their best! It feels enthralling to make the journey to the roof of the world."
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Image View to show captured photo -->
+    <ImageView
+        android:id="@+id/capturedImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:src="@android:drawable/ic_menu_camera"
+        android:scaleType="centerCrop" />
+
+    <!-- Add Photos Button -->
+    <TextView
+        android:id="@+id/addPhotosButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ Add Photos"
+        android:layout_gravity="center"
+        android:textColor="#009688"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"/>
+
+</LinearLayout>

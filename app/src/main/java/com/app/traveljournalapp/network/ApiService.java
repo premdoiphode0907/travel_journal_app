@@ -1,13 +1,8 @@
 package com.app.traveljournalapp.network;
 
-
-import com.app.traveljournalapp.data.db.entity.Journey;
 import com.app.traveljournalapp.data.db.model.ApiResponse;
 import com.app.traveljournalapp.data.db.model.JourneyResponse;
-import com.app.traveljournalapp.data.db.model.LoginRequest;
-import com.app.traveljournalapp.data.db.model.RegisterRequest;
 
-import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -28,4 +23,7 @@ public interface ApiService {
     // Save a new journey using FormBody
     @POST("app_api.php")
     Call<ApiResponse> saveJourney(@Body RequestBody requestBody);
+
+    @POST("app_api.php")
+    Call<Void> saveMemory(@Body RequestBody requestBody);
 }
