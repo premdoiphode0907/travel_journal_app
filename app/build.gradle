@@ -65,4 +65,7 @@ dependencies {
    // Location
     implementation libs.play.services.location
 
+    implementation libs.subsampling.scale.image.view
+
+
 }

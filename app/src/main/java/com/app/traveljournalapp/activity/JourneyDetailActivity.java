@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,15 +16,22 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.traveljournalapp.R;
+import com.app.traveljournalapp.adapter.MemoriesAdapter;
 import com.app.traveljournalapp.data.db.entity.Journey;
+import com.app.traveljournalapp.data.db.entity.Memory;
 import com.app.traveljournalapp.data.db.model.JourneyResponse;
+import com.app.traveljournalapp.data.db.model.MemoryResponse;
 import com.app.traveljournalapp.network.ApiService;
 import com.app.traveljournalapp.network.RetrofitClient;
 import com.app.traveljournalapp.utils.SharedPreferencesHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -39,8 +47,8 @@ public class JourneyDetailActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_CAMERA_PERMISSION = 100;
     private SharedPreferencesHelper sharedPreferencesHelper;
-    private ImageView capturedImageView;
     private Bitmap photoBitmap;
+    private MemoriesAdapter memoriesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +61,21 @@ public class JourneyDetailActivity extends AppCompatActivity {
         addressTextView = findViewById(R.id.journeyAddress);
         descriptionTextView = findViewById(R.id.journeyDescription);
         addPhotosButton = findViewById(R.id.addPhotosButton);
-        capturedImageView = findViewById(R.id.capturedImageView);
+//        capturedImageView = findViewById(R.id.capturedImageView);
         backButton = findViewById(R.id.backButton);
-        
+
+        RecyclerView memoriesRecyclerView = findViewById(R.id.memoriesRecyclerView);
+        memoriesRecyclerView.setLayoutManager(new GridLayoutManager(this, 3)); // 3 columns
+
+        memoriesAdapter = new MemoriesAdapter(item -> {
+            // Handle click → open full screen image
+            Intent intent = new Intent(JourneyDetailActivity.this, FullImageActivity.class);
+            intent.putExtra("imageUrl", item.imageUrl);
+            startActivity(intent);
+        });
+        memoriesRecyclerView.setAdapter(memoriesAdapter);
+
+
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(JourneyDetailActivity.this, JourneyManagementActivity.class);
             startActivity(intent);
@@ -78,6 +98,7 @@ public class JourneyDetailActivity extends AppCompatActivity {
         if (journeyId != -1) {
             // Fetch journey details from the API
             fetchJourneyDetails(journeyId);
+            fetchJourneyMemories(journeyId);
         }
 
         // On Click: Add Photos
@@ -118,9 +139,9 @@ public class JourneyDetailActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             if (extras != null) {
                 photoBitmap = (Bitmap) extras.get("data");
-                capturedImageView.setImageBitmap(photoBitmap);  // Show the captured photo
 
                 // Convert the Bitmap to Base64
+                assert photoBitmap != null;
                 String base64Photo = convertBitmapToBase64(photoBitmap);
 
                 // Upload the image to the server
@@ -158,6 +179,10 @@ public class JourneyDetailActivity extends AppCompatActivity {
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
                             Toast.makeText(JourneyDetailActivity.this, "Photo added successfully", Toast.LENGTH_SHORT).show();
+                            int journeyId = getIntent().getIntExtra("journeyId", -1);
+                            if (journeyId != -1) {
+                                fetchJourneyMemories(journeyId);
+                            }
                         } else {
                             Toast.makeText(JourneyDetailActivity.this, "Failed to add photo", Toast.LENGTH_SHORT).show();
                         }
@@ -169,6 +194,46 @@ public class JourneyDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void fetchJourneyMemories(int journeyId) {
+        String userId = String.valueOf(sharedPreferencesHelper.getUserId());
+
+        RequestBody requestBody = new FormBody.Builder()
+                .add("action", "get_memories")
+                .add("user_id", userId)
+                .add("journey_id", String.valueOf(journeyId))
+                .build();
+
+        RetrofitClient.getClient().create(ApiService.class)
+                .getMemories(requestBody)
+                .enqueue(new Callback<MemoryResponse>() {
+                    @Override
+                    public void onResponse(Call<MemoryResponse> call, Response<MemoryResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<MemoryResponse.MemoryItem> memoryList = response.body().getMemories();
+
+                            // Convert to adapter items
+                            List<MemoriesAdapter.MemoryItem> adapterItems = new ArrayList<>();
+                            for (MemoryResponse.MemoryItem m : memoryList) {
+                                adapterItems.add(new MemoriesAdapter.MemoryItem(
+                                        m.getPhotoUrl(),
+                                        m.getJourneyTitle() != null ? m.getJourneyTitle() : ""
+                                ));
+                            }
+
+                            memoriesAdapter.submit(adapterItems);
+                        } else {
+                            Toast.makeText(JourneyDetailActivity.this, "No memories found", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MemoryResponse> call, Throwable t) {
+                        Toast.makeText(JourneyDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     // Method to fetch journey details using API
     private void fetchJourneyDetails(long journeyId) {
         // Create the API request body

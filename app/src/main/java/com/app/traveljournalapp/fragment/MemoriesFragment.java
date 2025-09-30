@@ -1,5 +1,6 @@
 package com.app.traveljournalapp.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.traveljournalapp.R;
+import com.app.traveljournalapp.activity.FullImageActivity;
+import com.app.traveljournalapp.activity.JourneyDetailActivity;
 import com.app.traveljournalapp.adapter.MemoriesAdapter;
 import com.app.traveljournalapp.data.db.model.MemoryResponse;
 import com.app.traveljournalapp.network.ApiService;
@@ -41,9 +44,11 @@ public class MemoriesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewMemories);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));  // 2 items per row in grid
 
-        memoriesAdapter = new MemoriesAdapter(memoryItem -> {
-            // Handle memory item click
-            Toast.makeText(getContext(), "Clicked: " + memoryItem.title, Toast.LENGTH_SHORT).show();
+        memoriesAdapter = new MemoriesAdapter(item -> {
+            // Handle click → open full screen image
+            Intent intent = new Intent(getContext(), FullImageActivity.class);
+            intent.putExtra("imageUrl", item.imageUrl);
+            startActivity(intent);
         });
 
         recyclerView.setAdapter(memoriesAdapter);

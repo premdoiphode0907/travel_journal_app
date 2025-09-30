@@ -37,7 +37,9 @@
         <activity android:name=".activity.JourneyManagementActivity" />
         <activity android:name=".activity.AddJourneyActivity" />
         <activity android:name=".activity.JourneyDetailActivity" />
-<!--        <activity android:name=".activity.AddPhotosActivity" />-->
+        <activity android:name=".activity.FullImageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
 
 
     </application>

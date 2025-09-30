@@ -74,13 +74,14 @@
         android:layout_marginTop="16dp"/>
 
     <!-- Image View to show captured photo -->
-    <ImageView
-        android:id="@+id/capturedImageView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/memoriesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_camera"
-        android:scaleType="centerInside"/>
+        android:padding="4dp"/>
+
+
 
     <!-- Add Photos Button -->
     <TextView
