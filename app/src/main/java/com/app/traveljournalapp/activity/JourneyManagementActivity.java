@@ -1,9 +1,11 @@
 package com.app.traveljournalapp.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +15,13 @@ import androidx.fragment.app.FragmentTransaction;
 import com.app.traveljournalapp.R;
 import com.app.traveljournalapp.fragment.JourneyFragment;
 import com.app.traveljournalapp.fragment.MemoriesFragment;
+import com.app.traveljournalapp.utils.SharedPreferencesHelper;
 import com.google.android.material.tabs.TabLayout;
 
 public class JourneyManagementActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
+    private SharedPreferencesHelper sharedPreferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,7 @@ public class JourneyManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_journey_management);
 
         tabLayout = findViewById(R.id.tabLayout);
+        Button btnLogout = findViewById(R.id.btnLogout);
 
         TabLayout.Tab journeyTab = tabLayout.newTab();
         journeyTab.setCustomView(createTabView("Journeys", true));
@@ -33,6 +38,8 @@ public class JourneyManagementActivity extends AppCompatActivity {
         TabLayout.Tab memoriesTab = tabLayout.newTab();
         memoriesTab.setCustomView(createTabView("Memories", false));
         tabLayout.addTab(memoriesTab);
+
+        sharedPreferencesHelper = new SharedPreferencesHelper(this);
 
         // Load the Journey fragment by default
         loadFragment(new JourneyFragment());
@@ -56,6 +63,17 @@ public class JourneyManagementActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
+        });
+
+        // Logout button click
+        btnLogout.setOnClickListener(v -> {
+            sharedPreferencesHelper.setLoggedIn(false);  // clear login state
+            sharedPreferencesHelper.setUserId(-1);       // reset user ID
+
+            Intent intent = new Intent(JourneyManagementActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -14,8 +14,8 @@ public interface UserDao {
     @Insert
     void insert(User user);
 
-    @Query("SELECT * FROM user WHERE email = :email")
-    User getUserByEmail(String email);
+    @Query("DELETE FROM user")
+    void clear();
 }
 
 

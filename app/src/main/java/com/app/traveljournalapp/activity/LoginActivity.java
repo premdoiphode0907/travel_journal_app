@@ -131,7 +131,11 @@ public class LoginActivity extends AppCompatActivity {
         user.setEmail(email);
         user.setPassword(password);
         // Save to Room Database in a background thread
-        new Thread(() -> appDatabase.userDao().insert(user)).start();
+
+        new Thread(() -> {
+            appDatabase.userDao().clear();
+            appDatabase.userDao().insert(user);
+        }).start();
     }
 
     // Navigate to Journey Activity after successful login

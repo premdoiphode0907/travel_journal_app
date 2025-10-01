@@ -203,15 +203,6 @@ public class JourneyFragment extends Fragment {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
             address = getAddressFromLatLng(lat, lng);
-
-            Toast.makeText(getContext(), "Location: " + address, Toast.LENGTH_SHORT).show();
-
-            if (isWaitingForLocation) {
-                isWaitingForLocation = false;
-                Intent intent = new Intent(getContext(), AddJourneyActivity.class);
-                intent.putExtra("address", address);
-                startActivity(intent);
-            }
         }
     }
 
@@ -243,6 +234,18 @@ public class JourneyFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateLocationSwitchState();
+
+        // Auto-fetch if location is enabled and we have permission
+        if (isLocationEnabled() &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+            fetchLocation();
+        }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
